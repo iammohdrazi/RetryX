@@ -1,4 +1,8 @@
-from setuptools import setup
+# setup.py
+from setuptools import setup, find_packages
 
-if __name__ == "__main__":
-    setup()
+setup(
+    name="retryx",
+    version="0.1.0",
+    packages=find_packages(),
+)
