@@ -1,45 +1,42 @@
 import time
 import random
-import functools
-from typing import Callable, Tuple, Type
+from functools import wraps
 
-def retry(
-    attempts: int = 3,
-    backoff: str = "exponential",
-    jitter: bool = False,
-    exceptions: Tuple[Type[BaseException], ...] = (Exception,),
-    callback: Callable = None,
-):
+def retry(attempts=3, backoff="fixed", delay=1, jitter=False, exceptions=(Exception,)):
     """
     Retry decorator with backoff and optional jitter.
-
-    Args:
-        attempts (int): Number of retry attempts before giving up.
-        backoff (str): Strategy: "fixed", "linear", or "exponential".
-        jitter (bool): Add randomness to delay.
-        exceptions (tuple): Exceptions to retry on.
-        callback (callable): Optional callback(attempt, exception, wait).
+    
+    Parameters:
+        attempts (int): number of retries
+        backoff (str): 'fixed', 'linear', or 'exponential'
+        delay (float): base delay in seconds
+        jitter (bool): add random jitter
+        exceptions (tuple): exceptions to catch
     """
     def decorator(func):
-        @functools.wraps(func)
+        @wraps(func)
         def wrapper(*args, **kwargs):
-            for attempt in range(attempts):
+            last_exception = None
+            for attempt in range(1, attempts + 1):
                 try:
                     return func(*args, **kwargs)
                 except exceptions as e:
-                    wait = 1
-                    if backoff == "linear":
-                        wait = attempt + 1
+                    last_exception = e
+                    # Calculate delay
+                    if backoff == "fixed":
+                        wait = delay
+                    elif backoff == "linear":
+                        wait = delay * attempt
                     elif backoff == "exponential":
-                        wait = 2 ** attempt
+                        wait = delay * (2 ** (attempt - 1))
+                    else:
+                        wait = delay
+                    # Add jitter
                     if jitter:
-                        wait += random.uniform(0, 0.5)
-
-                    if callback:
-                        callback(attempt + 1, e, wait)
-
-                    if attempt == attempts - 1:  # last attempt
-                        raise
+                        wait = wait * random.uniform(0.5, 1.5)
+                    print(f"Attempt {attempt} failed. Retrying in {wait:.2f} seconds...")
                     time.sleep(wait)
+            # All retries failed
+            raise last_exception
         return wrapper
     return decorator
