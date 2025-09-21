@@ -1,5 +1,5 @@
 import pytest
-from retryx import retry
+from retryxlib import retry  # updated import
 
 counter = {"count": 0}
 

@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "retryx"
+name = "retryxlib"       # unique name
 version = "0.1.0"
 description = "A simple retry/backoff handler for Python"
 readme = "README.md"
@@ -19,4 +19,4 @@ classifiers = [
 ]
 
 [tool.setuptools.packages.find]
-where = ["retryx"]
+where = ["retryxlib"]

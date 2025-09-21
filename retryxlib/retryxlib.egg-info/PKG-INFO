@@ -1,0 +1,21 @@
+Metadata-Version: 2.4
+Name: retryxlib
+Version: 0.1.0
+Summary: A simple retry/backoff handler for Python
+Author: Mohammad Razi
+Author-email: Mohammad Razi <mohdrazi1456@gmail.com>
+License: MIT License
+        
+        Copyright (c) 2025 Mohammad Razi
+        
+Keywords: retry,backoff,decorator,python,cross-platform
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# RetryX
+
+A simple Python decorator library for retrying functions with backoff and exception handling.
