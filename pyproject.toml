@@ -9,7 +9,7 @@ description = "A simple retry/backoff handler for Python"
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [
-    { name = "Your Name", email = "you@example.com" }
+    { name = "Mohammad Razi", email = "mohdrazi1456@gmail.com" }
 ]
 keywords = ["retry", "backoff", "decorator", "python", "cross-platform"]
 requires-python = ">=3.7"
