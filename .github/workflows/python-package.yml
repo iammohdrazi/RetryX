@@ -23,12 +23,15 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install dependencies
+      - name: Install package & dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -e .               # <- install your retryx package
+          pip install -e . --use-pep517     # <- installs retryx correctly
           pip install -r requirements.txt
           pip install pytest
+
+      - name: Verify package import
+        run: python -c "import retryx; print('retryx import successful')"
 
       - name: Run tests
         run: pytest
@@ -48,7 +51,7 @@ jobs:
 
       - name: Build package
         run: |
-          python -m pip install --upgrade build twine
+          python -m pip install --upgrade pip build twine
           python -m build
 
       - name: Publish to PyPI
