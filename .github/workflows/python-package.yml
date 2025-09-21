@@ -1,14 +1,14 @@
-name: Python package
+name: Python Package
 
 on:
   push:
     branches: [ "main" ]
-    tags: [ "v*" ]
+    tags: [ "v*" ]        # publish only on tags like v0.1.1
   pull_request:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -16,35 +16,43 @@ jobs:
         python-version: ["3.8", "3.9", "3.10", "3.11"]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install pytest
-    - name: Run tests
-      run: pytest
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .               # <- install your retryx package
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Run tests
+        run: pytest
 
   publish:
-    needs: build
+    needs: build-and-test
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/v')   # only run on tags
+
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.9"
-    - name: Build package
-      run: |
-        python -m pip install --upgrade build twine
-        python -m build
-    - name: Publish to PyPI
-      uses: pypa/gh-action-pypi-publish@v1.8.8
-      with:
-        user: __token__
-        password: ${{ secrets.PYPI_API_TOKEN }}
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Build package
+        run: |
+          python -m pip install --upgrade build twine
+          python -m build
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@v1.8.8
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
