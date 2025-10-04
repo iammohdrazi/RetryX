@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "retryx"  # must match your package folder name
+name = "retryxlib"  # must match your package folder name
 version = "0.1.6"
 description = "A simple retry/backoff handler"
 readme = "README.md"
