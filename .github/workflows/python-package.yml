@@ -24,14 +24,30 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Upgrade pip and build tools
+        run: python -m pip install --upgrade pip setuptools wheel build
+
+      - name: Clean previous builds
         run: |
-          python -m pip install --upgrade pip setuptools wheel build
+          rm -rf dist/*
+        shell: bash  # On Windows runners, use shell: pwsh and `Remove-Item -Recurse -Force dist\*`
 
       - name: Build wheel
         run: python -m build --wheel --outdir dist
 
-      - name: Install package from wheel
-        run: python -m pip install dist/*.whl
+      - name: Install package from wheel (cross-platform)
+        run: |
+          # Linux/macOS
+          if [ -f dist/*.whl ]; then
+            python -m pip install dist/*.whl
+          fi
+        shell: bash
+
+      - name: Install package from wheel (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          $wheel = Get-ChildItem dist\*.whl | Sort-Object Name | Select-Object -Last 1
+          python -m pip install $wheel.FullName
+        shell: pwsh
 
       - name: Install test dependencies
         run: |
@@ -57,8 +73,14 @@ jobs:
         with:
           python-version: "3.9"
 
-      - name: Build and publish to PyPI
-        run: |
-          python -m pip install --upgrade pip build twine
-          python -m build
-          python -m twine upload dist/* -u __token__ -p ${{ secrets.PYPI_API_TOKEN }}
+      - name: Upgrade pip and build tools
+        run: python -m pip install --upgrade pip build twine
+
+      - name: Clean previous builds
+        run: rm -rf dist/*
+
+      - name: Build wheel
+        run: python -m build --wheel --outdir dist
+
+      - name: Publish to PyPI
+        run: python -m twine upload dist/*.whl -u __token__ -p ${{ secrets.PYPI_API_TOKEN }}
