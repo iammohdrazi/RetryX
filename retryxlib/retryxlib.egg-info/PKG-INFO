@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: retryxlib
-Version: 0.1.4
+Version: 0.1.5
 Summary: A simple retry/backoff handler
 Author: Mohammad Razi
 Author-email: Mohammad Razi <mohdrazi1456@gmail.com>
