@@ -1,0 +1,10 @@
+LICENSE
+README.md
+pyproject.toml
+retryxlib/__init__.py
+retryxlib/retry.py
+retryxlib.egg-info/PKG-INFO
+retryxlib.egg-info/SOURCES.txt
+retryxlib.egg-info/dependency_links.txt
+retryxlib.egg-info/top_level.txt
+tests/test_retry.py

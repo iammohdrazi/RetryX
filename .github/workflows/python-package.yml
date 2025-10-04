@@ -2,10 +2,10 @@ name: Python Package
 
 on:
   push:
-    branches: [ "main" ]
-    tags: [ "v*" ]
+    branches: ["main"]
+    tags: ["v*"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build-and-test:
@@ -35,12 +35,11 @@ jobs:
 
       - name: Install test dependencies
         run: |
-          pip install -r requirements.txt
-          pip install pytest
+          python -m pip install -r requirements.txt
+          python -m pip install pytest
 
       - name: Verify import
         run: python -c "import retryxlib; print('retryxlib import successful')"
-
 
       - name: Run tests
         run: pytest
