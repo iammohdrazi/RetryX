@@ -38,8 +38,9 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
 
-      - name: Verify package import
-        run: python -c "import retryx; print('retryx import successful')"
+      - name: Verify import
+        run: python -c "import retryxlib; print('retryxlib import successful')"
+
 
       - name: Run tests
         run: pytest
