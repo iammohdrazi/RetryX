@@ -1,0 +1,12 @@
+python -m build --wheel --sdist --outdir dist
+or
+python -m build
+
+python -m twine upload dist/*
+
+pip install --upgrade retryxlib
+python -c "import retryxlib; print(retryxlib)"
+
+after push:
+git tag v0.1.0
+git push origin v0.1.0

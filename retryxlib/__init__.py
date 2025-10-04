@@ -1,1 +1,1 @@
-from .core import retry
+from .retry import retry
