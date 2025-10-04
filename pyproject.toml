@@ -1,14 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "retryxlib"
-version = "0.1.5"
+name = "retryx"  # must match your package folder name
+version = "0.1.6"
 description = "A simple retry/backoff handler"
 readme = "README.md"
 requires-python = ">=3.7"
-authors = [{ name = "Mohammad Razi", email = "mohdrazi1456@gmail.com" }]
-
-[build-system]
-requires = ["setuptools>=61.0", "wheel", "build"]
-build-backend = "setuptools.build_meta"
+authors = [
+    { name = "Mohammad Razi", email = "mohdrazi1456@gmail.com" }
+]
+license = { text = "MIT" }
+keywords = ["retry", "backoff", "decorator", "python", "cross-platform"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
 
 [tool.setuptools.packages.find]
-where = ["retryxlib"]
+where = ["."]
